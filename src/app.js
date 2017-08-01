@@ -26,6 +26,7 @@ import styles from './styles';
 
 const { width } = Dimensions.get('window');
 
+import firebaseApp from './components/fire.js'
 
 // Prepare Blob support
 const Blob = RNFetchBlob.polyfill.Blob
@@ -44,18 +45,6 @@ export default class EventPhotoShareApp extends Component {
     }
   }
 
-  // More info on all the options is below in the README...just some common use cases shown here
-  options = {
-    title: 'Select Avatar',
-    customButtons: [
-      {name: 'fb', title: 'Choose Photo from Facebook'},
-    ],
-    storageOptions: {
-      skipBackup: true,
-      path: 'images'
-    }
-  };
-
   setIndex = (index) => {
     if (index === this.state.index) {
       index = null
@@ -65,7 +54,14 @@ export default class EventPhotoShareApp extends Component {
 
   getImage(){
 
-      ImagePicker.showImagePicker( (response) => {
+    var options = {
+        storageOptions: {
+          cameraRoll: true,
+          waitUntilSaved: true,
+        }
+      };
+
+      ImagePicker.showImagePicker(options, (response) => {
         console.log('Response = ', response);
 
         if (response.didCancel) {
